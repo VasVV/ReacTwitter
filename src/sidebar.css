@@ -1,0 +1,26 @@
+.sidebar {
+    border-right: 1px solid #50b7f5;
+    flex: 0.3;
+    padding-left: 20px;
+    padding-right: 20px;
+    align-self: flex-start;
+    height: 100vh;
+    
+}
+
+.twitter-icon {
+    color: #50b7f5;
+    padding: 20px;
+}
+.sidebar-btn {
+    background-color: #50b7f5 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 50px !important;
+    text-transform: inherit !important;
+    margin-top: 20px !important;
+    border: 10px solid transparent !important;
+    align-self: flex-end;
+}
+

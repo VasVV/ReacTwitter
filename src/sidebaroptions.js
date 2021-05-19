@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './sidebaroptions.css'
 
-export default function Sidebaroptions({text, Icon}) {
+export default function Sidebaroptions({active, text, Icon}) {
 
     return (
-        <div className='sidebar-option'>
-            {<Icon />}
+        <div className={`sidebarOption ${active && 'sidebarOption-active'}`}>
+            {Icon}
             <h2>{text}</h2>
         </div>
+        
     )
 }

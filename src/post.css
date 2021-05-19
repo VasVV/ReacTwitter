@@ -1,0 +1,31 @@
+.post {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid black;
+    padding: 10px;
+    
+}
+
+.post-img > img {
+    border-radius: 20px !important;
+   flex: 1;
+    max-height: 200px
+}
+
+.post-body {
+    
+    flex: 1;
+    padding: 10px
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: space-between !important;
+    margin-top: 10px;
+    
+}
+
+.verified-icon {
+    color: #50b7f5;
+    font-size: 14px
+}
