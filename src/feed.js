@@ -2,16 +2,25 @@ import React, {useState, useEffect} from 'react';
 import './feed.css';
 import TweetBox from './tweetbox';
 import Post from './post';
-import {firebaseApp, db} from './firebase';
+import { db} from './firebase';
+import props from 'prop-types';
+
 
 export default function Feed() {
 
+    
+
     const [posts, setPosts] = useState([]);
+    
+
+    function handleChange() {
+        getPosts();
+    }
+
 
     const getPosts = async() => {
         const snapshot = await db.collection('tweets').get().then(snapshot => {
             let tweets = snapshot.docs.map(doc => doc.data());
-            console.log(tweets)
             setPosts(tweets);
         })
         }
@@ -19,7 +28,9 @@ export default function Feed() {
 
     useEffect(() => {
       getPosts() 
-    }, [])
+    }, []);
+
+    
 
     return (
         <div className='feed'>
@@ -27,8 +38,9 @@ export default function Feed() {
                 <h2>Home</h2>
             </div>
 
-            <TweetBox />
+            <TweetBox update={handleChange} />
             {posts.map(e => {
+                console.log(e);
                 return (
                     <>
                     <Post 

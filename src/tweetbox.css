@@ -42,7 +42,7 @@
 .media-submit-line {
     align-self: flex-start;
     width: 90%;
-    margin-left: 70px;
+    margin-left: 10px;
 }
 
 .tweet-btn-container {
@@ -59,4 +59,14 @@
     background-color: #e4f5ff;
     border-radius: 20px;
     border: none;
+}
+
+.tweet-img > img {
+    border-radius: 20px !important;
+   flex: 1;
+    max-height: 200px
+}
+
+.tweet-img {
+    padding: 20px
 }
