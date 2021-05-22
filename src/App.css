@@ -1,5 +1,5 @@
 .app {
-  display: flex !important;
+  display: flex ;
   height: 100vh;
-  flex-direction: row !important
+  flex-direction: row 
 }

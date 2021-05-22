@@ -29,3 +29,11 @@
     color: #50b7f5;
     font-size: 14px
 }
+
+.like-span:hover {
+    color: red !important
+}
+
+.retweet-span:hover {
+    color: green !important
+}

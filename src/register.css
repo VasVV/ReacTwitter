@@ -1,0 +1,94 @@
+
+
+.register {
+  display: flex !important;
+  min-height: 100vh !important; 
+  flex-direction: row !important
+}
+
+.big-image-col {
+    display: flex;
+    flex-direction: column !important;  
+    justify-content: center !important;
+    align-items: center !important;
+    background-image:   url('https://abs.twimg.com/sticky/illustrations/lohp_1302x955.png');
+    background-size: cover !important;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  flex: 1;
+}
+
+.register-col {
+    display: flex;
+    flex-direction: column ;
+    flex: 1;
+    background-color: black;
+    color: white;
+    justify-content: space-between !important;
+    padding: 20px;
+}
+
+
+.twitter-sign-col > .MuiSvgIcon-root {
+    padding: 5px;
+    color: white;
+    font-size: 90px !important;
+}
+
+.bigger-text-col {
+    font-size: 90px;
+    font-weight: 700;
+    line-height: 1em;
+}
+
+.smaller-text-col {
+    font-size: 70px;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 1em
+}
+
+.register-btn {
+    background-color: #50b7f5 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 50px !important;
+    text-transform: inherit !important;
+    margin-top: 20px !important;
+    border: 10px solid transparent !important;
+    width: 50%
+}
+
+.register-btn:hover {
+        background-color: #50b6f5b9 !important;
+        transition: background-color 300ms ease-out !important;
+}
+
+.login-btn {
+    background-color: black !important;
+    border-radius: 20px !important;
+    color: #50b7f5  !important;
+    font-weight: bold !important;
+    height: 50px !important;
+    text-transform: inherit !important;
+    margin-top: 20px !important;
+    border: 1px solid #50b7f5 !important;
+    width: 50%
+}
+
+.login-btn:hover {
+    background-color: rgba(105, 100, 100, 0.219)!important;
+        transition: background-color 300ms ease-out !important;
+}
+
+.login-btn-div {
+    margin-bottom: 20px;
+}
+
+.overlay-twitter > .MuiSvgIcon-root {
+    font-size: 25vw !important;
+   color: white;
+}

@@ -70,3 +70,19 @@
 .tweet-img {
     padding: 20px
 }
+
+.emoji-submit-line {
+    align-self: flex-start;
+    width: 90%;
+}
+
+.emoji-submit-line > .MuiSvgIcon-root {
+    padding: 5px;
+    color: #50b7f5;
+}
+
+.emoji-submit-line > .MuiSvgIcon-root:hover {
+    background-color: #e4f5ff;
+    border-radius: 20px;
+    border: none;
+}

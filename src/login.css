@@ -1,0 +1,107 @@
+.login {
+    display: flex !important;
+    min-height: 100vh !important; 
+    flex-direction: column !important;
+    align-items: center;
+    background-color: black;
+    color: white;
+  }
+
+.twitter-sign >  .MuiSvgIcon-root {
+    padding: 5px;
+    color: white;
+    font-size: 90px !important;
+}
+
+.twitter-login-text {
+    font-size: 3.0vw;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 30vw;
+    height: 45px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.login-email {
+    margin-bottom: 20px !important;
+    
+}
+
+.login-password {
+    margin-bottom: 20px !important;
+}
+
+.login-btn-form-btn {
+    background-color: #50b7f5 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 50px !important;
+    text-transform: inherit !important;
+    border: 10px solid transparent !important;
+    width: 30vw !important
+}
+
+.login-btn-form-btn:hover {
+    background-color: #50b6f5b9 !important;
+    transition: background-color 300ms ease-out !important;
+    cursor: pointer;
+}
+
+.forgot-register {
+    margin-top: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    
+}
+
+.forgot {
+    align-self: flex-start;
+    margin-right: 40px;  
+ 
+}
+.register-redirect {
+    align-self: flex-end !important;
+}
+
+a {
+    text-decoration: none;
+    color: #50b7f5
+}
+
+.avatar-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    width: inherit !important;
+    flex-basis: 0;
+}
+
+.choose-avatar-text {
+    color: white
+}
+
+.upload-avatar-btn {
+    background-color: #50b7f5 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 25px !important;
+    margin-left: 20px
+}
+
+.choose-avatar-text {
+    margin-left: 25px;
+   
+}
+
+.avatar-img {
+    margin-bottom: 5px;
+}
+
+
