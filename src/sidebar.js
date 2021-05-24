@@ -15,7 +15,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import TwitterIcon from '@material-ui/icons/Twitter';
 
 export default function Sidebar() {
-    const vals = [['Home', <HomeIcon />],['Explore', <SearchIcon />], ['Notifications', <NotificationsIcon />], ['Messages', <MailOutlineIcon />], ['Bookmarks', <BookmarkBorderIcon />], ['Lists', <ListAltIcon />], ['Profile', <PersonIcon />], ['More', <MoreHorizIcon />]]
+    const vals = [['Home', <HomeIcon />, '/dashboard'],['Explore', <SearchIcon />], ['Notifications', <NotificationsIcon />], ['Messages', <MailOutlineIcon />], ['Bookmarks', <BookmarkBorderIcon />], ['Lists', <ListAltIcon />], ['Profile', <PersonIcon />, '/profile'], ['More', <MoreHorizIcon />]]
     return (
         <div className='sidebar'>
             <TwitterIcon className='twitter-icon' />
@@ -24,7 +24,7 @@ export default function Sidebar() {
                     let x = e[1]
                     return (
                         
-                        <Sidebaroptions active={true} text={e[0]} Icon ={x} />
+                        <Sidebaroptions active={true} text={e[0]} Icon ={x} redirect={e[2]} />
                     )
                 })
             }

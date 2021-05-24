@@ -3,7 +3,7 @@ import './post.css';
 import {Avatar} from '@material-ui/core'
 import { ChatBubbleOutline, FavoriteBorder, PublishOutlined, RepeatOutlined, VerifiedUserRounded } from '@material-ui/icons';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import './post.css'
+
 import {db,firebaseApp} from './firebase';
 
 export default function Post({
@@ -355,15 +355,33 @@ export default function Post({
                     </div>
                     {showreplybox && 
                     <> 
-                        <input type='text' placeholder='Your reply' onChange={(e) => setReply(e.target.value)} /> 
-                        <button onClick={() => addReply()}>Send</button> 
+                        <input type='text' placeholder='Your reply' className='reply-input' onChange={(e) => setReply(e.target.value)} /> 
+                        <button className='reply-btn' onClick={() => addReply()}>Send</button> 
                         <ul>
                             
                             {allReplies.map(e => {
                                
-                               return (<li>
-                                    {e.text}
-                                </li>)
+                               return (<div className='post' >
+                               <div className='post-avatar'>
+                                   <Avatar src={e.avatar} />
+                               </div>
+                                   <div className='post-body'>
+                                       <div className='post-header'>
+                                       {e.isRetweet&& <p>{retweetedBy} retweeted</p>}
+                                           <div className='header-text'>
+                                               <h3>{e.displayName} <span>
+                                                   {e.verified&&<VerifiedUserRounded className='verified-icon' />}
+                                                   </span>   @{e.userName} · {e.timeStamp}
+                                                   
+                                                   </h3>
+                                           </div>
+                                           <div className='post-headerdescription'>
+                                               <p>{e.text}</p>
+                                           </div>
+                                       </div>
+                                       
+                                   </div>
+                               </div>)
                             })}
                         </ul>
                     </>

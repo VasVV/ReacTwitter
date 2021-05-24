@@ -37,3 +37,19 @@
 .retweet-span:hover {
     color: green !important
 }
+
+.reply-span:hover{
+    color:#50b7f5
+}
+
+.reply-btn {
+    background-color: #50b7f5 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 40px !important;
+    width: 90px !important;
+    text-transform: inherit !important;
+    border: none !important;
+    margin-left: 20px !important
+}

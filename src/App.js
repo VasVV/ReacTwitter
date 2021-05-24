@@ -13,7 +13,8 @@ import {
 
 import './App.css'
 import RegisterForm from './registerform';
-import RegisterTwo from './registertwo'
+import RegisterTwo from './registertwo';
+import Profile from './profile';
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
          </Route>
          <Route path='/registertwo'>
            <RegisterTwo />
+         </Route>
+         <Route path='/profile'>
+           <Profile />
          </Route>
        </Switch>
      </Router>

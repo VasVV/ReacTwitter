@@ -1,0 +1,101 @@
+.profile {
+   display: flex;
+}
+
+.profile-col {
+    flex: 0.6 !important;
+    border-right: 1px solid #50b7f5;
+    min-width: fit-content;
+    overflow-y: scroll;
+    -ms-overflow-style: none !important;  /* IE and Edge */
+    scrollbar-width: none !important;  /* Firefox */
+}
+
+.profile::-webkit-scrollbar {
+    display: none !important;
+  }
+
+
+
+.profile-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 100;
+    border: 1px solid white;
+    padding: 15px 20px
+}
+
+.avatar-large {
+    height: 100px !important;
+    width: 100px !important;
+    border: 5px solid white !important;
+}
+
+.displayname-profile {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.joined-profile {
+    margin-top: 10px;
+}
+
+.following-followers-profile {
+    margin-top: 10px;
+}
+
+.select-profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 700;
+    
+}
+
+.select-profile-item {
+    padding: 20px
+}
+
+.select-profile-item:hover {
+    background-color: #50b7f5;
+    transition: background-color 500ms ease-out !important;
+}
+
+.invisible-tab {
+    display: none !important;
+};
+
+.visible-tab {
+    visibility: visible !important;
+}
+
+.tweets-tweets-active {
+    border-bottom: 5px solid #50b7f5;
+    padding: 20px
+}
+
+.tweets-tweets-active:hover {
+    background-color: #50b7f5;
+    transition: background-color 500ms ease-out !important;
+}
+
+.tweets-tweets-nonactive {
+    border-bottom: 0px solid white;
+    padding: 20px
+}
+
+.tweets-tweets-nonactive:hover {
+    background-color: #50b7f5;
+    transition: background-color 500ms ease-out !important;
+}
+
+.inline-icon {
+    vertical-align: bottom;
+    font-size: 18px !important;
+ }
