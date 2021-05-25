@@ -3,13 +3,14 @@ import Sidebar from './sidebar';
 import Feed from './feed';
 import Widgets from './widgets';
 
-import './profile.css';
+import './otheruserprofile.css';
 import { Avatar } from '@material-ui/core';
 import {db, firebaseApp} from './firebase';
 import Post from './post';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import {useSelector} from 'react-redux';
 
-export default function Profile() {
+export default function OtherUserProfile() {
 
     const tab1Ref = useRef(null);
     const tab2Ref = useRef(null);
@@ -24,26 +25,49 @@ export default function Profile() {
     const [avatar, setAvatar] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [twitterName, setTwitterName] = useState('');
-    const [alltweets, setAllTweets] = useState([]);
-    const [myTweets, setMyTweets] = useState([]);
+    const [joined, setJoined] = useState('');
+    const [followed, setFollowed] = useState('');
+    const [numberOfFollowers, setNumberOfFollowers] = useState(0);
+    const [numberOfFollowing, setNumberOfFollowing] = useState(0);
+    const [myLikes, setMyLikes] = useState([]);
+
+    const user = useSelector(state => state.userInfo);
+
+    const recieveUserInfo = () => {
+        console.log('user from redfux');
+        console.log(user);
+        setAvatar(user[2]);
+        setDisplayName(user[1]);
+        setTwitterName(user[0]);
+        setJoined(user[4]);
+        setUserId(user[5]);
+        initialCheckFollow(user[5]);
+        getCurrUserData(user[5])
+    }
+
+    useEffect(() => {
+        recieveUserInfo();
+    },[])
+
+    
+    const [allusertweets, setAlluserTweets] = useState([]);
+    const [userTweets, setUserTweets] = useState([]);
     const [thisuserId, setthisUserId] = useState('');
     const [currentTab, setCurrentTab] = useState(1);
-    const [joined, setJoined] = useState('');
-    const [myLikes, setMyLikes] = useState([])
+    const [userId, setUserId] = useState('');
+    // const [joined, setJoined] = useState('');
+    const [alltweets, setAllTweets] = useState([]);
+    const [myTweets, setMyTweets] = useState([]);
 
-    const getCurrUserData = async() => {
+    const getCurrUserData = async(userId) => {
         if (firebaseApp.auth()) {
-    const currUser = await firebaseApp.auth().currentUser
     
-    
-    const userId = currUser.uid;
-    setthisUserId(userId);
     const currUserDb = await db.collection('users').where('userId', '==', userId).get();
     const currUserDbMapped = currUserDb.docs.map(doc => doc.data())[0];
-    setAvatar(currUserDbMapped.avatar);
-    setDisplayName(currUserDbMapped.displayName);
-    setTwitterName(currUserDbMapped.twittername);
-    setJoined(currUserDbMapped.joined)
+    // setAvatar(currUserDbMapped.avatar);
+    // setDisplayName(currUserDbMapped.displayName);
+    // setTwitterName(currUserDbMapped.twittername);
+    // setJoined(currUserDbMapped.joined)
     const currUserTweetsDb = await db.collection('tweets').where('userId', '==', userId).get();
     const currUserTweetsDbMapped = currUserTweetsDb.docs.map(doc => doc.data());
     setAllTweets(currUserTweetsDbMapped);
@@ -56,13 +80,75 @@ export default function Profile() {
     
     setMyLikes(currUserLikesDbMapped);
 
-
         }
     }
 
-    useEffect(() => {
-        getCurrUserData()
-    }, []);
+    // useEffect(() => {
+    //     getCurrUserData()
+    // }, []);
+
+    const addRemoveFollow = async() => {
+        const user = await db.collection('users').where('userId', '==', userId).get();
+       
+        const otherUserDocId = user.docs[0].id;
+        const mappedUser = user.docs.map(doc => doc.data())[0];
+       
+        const currUserId = firebaseApp.auth().currentUser.uid;
+        const addFollowing = await db.collection('users').where('userId', '==', currUserId).get();
+        const currUserDocId = addFollowing.docs[0].id;
+        const mappedCurrentUser = addFollowing.docs.map(doc => doc.data())[0];
+        console.log('initial current user');
+        console.log(mappedCurrentUser);
+        if ( mappedUser.followers.includes(currUserId) ) {
+           const index = mappedUser.followers.findIndex(e => e == currUserId);
+           console.log('INDEXS')
+            console.log(index)
+            mappedUser.followers.splice(index, 1);
+            const index2 = mappedCurrentUser.following.findIndex(e => e== userId);
+            mappedCurrentUser.following.splice(index2, 1);
+            
+        } else {
+            mappedUser.followers.push(currUserId);
+            mappedCurrentUser.following.push(userId);
+        }
+
+        console.log('current user changed');
+        console.log(mappedCurrentUser);
+
+        console.log('other user changed');
+        console.log(mappedUser)
+
+
+        const addFollower = await db.collection('users').doc(otherUserDocId).set(mappedUser);
+        const addFollowingtoDb = await db.collection('users').doc(currUserDocId).set(mappedCurrentUser);
+        initialCheckFollow(userId);
+    }
+
+    const initialCheckFollow = async(otherUserId) => {
+
+        const currentUserId = await firebaseApp.auth().currentUser.uid;
+
+        const currentUserDb = await db.collection('users').where('userId', '==', currentUserId).get();
+
+        const currUserDbMapped = currentUserDb.docs.map(doc => doc.data())[0];
+
+        const otheruser = await db.collection('users').where('userId', '==', otherUserId).get();
+       
+        const mappedotherUser = otheruser.docs.map(doc => doc.data())[0];
+
+        setNumberOfFollowers(mappedotherUser.followers.length);
+        setNumberOfFollowing(mappedotherUser.following.length);
+
+        
+        
+        if (currUserDbMapped.following.includes(otherUserId) ) {
+            setFollowed(true);
+            console.log('true')
+        } else {
+            setFollowed(false)
+            console.log('false')
+        }
+    }
 
     const switchTab = num => {
         setCurrentTab(num); 
@@ -109,11 +195,19 @@ export default function Profile() {
                     <div className='profile-header'>
                         
                         <Avatar src={avatar} className='avatar-large' />
-                        <div className='profile-info'>
+                        <div className='profile-info-other'>
+                            <div>
                             <div className='displayname-profile'>{displayName}</div> 
                             <div className='twittername-profile'>@{twitterName}</div> 
-                            <div className='joined-profile'><CalendarTodayIcon className='inline-icon' />  Joined {joined}</div>
-                            <div className='following-followers-profile'>0 following 0 followers</div>
+                            <div className='joined-profile'><CalendarTodayIcon className='inline-icon' />  Joined {joined} </div>
+                            <div className='following-followers-profile'><strong>{numberOfFollowing}</strong> following <strong>{numberOfFollowers} </strong> followers</div>
+
+                            </div>
+                            
+                            <div>
+                                <button className='follow-unfollow-btn' onClick={() => addRemoveFollow()}>{followed ? 'Unfollow' : 'Follow'}</button>
+                            </div>
+
                         </div>
                         <div className='select-profile'>
                             <div className='tweets-tweets select-profile-item tweets-tweets-active' ref={tab1} onClick={() => switchTab(1)}> Tweets </div>

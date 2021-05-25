@@ -1,3 +1,18 @@
 .widgets {
     flex: 0.2
 }
+
+.suggestions {
+    background-color: lightgrey;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px
+}
+
+.suggestions-header-container {
+    border-bottom: 1px solid black;
+}
+
+.suggestions-header {
+    margin: 5px
+}

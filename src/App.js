@@ -15,10 +15,14 @@ import './App.css'
 import RegisterForm from './registerform';
 import RegisterTwo from './registertwo';
 import Profile from './profile';
+import OtherUserProfile from './otheruserprofile';
+
+
+
 
 function App() {
   return (
-    
+   
      
      <Router>
        <Switch>
@@ -44,8 +48,13 @@ function App() {
          <Route path='/profile'>
            <Profile />
          </Route>
+         <Route path='/otheruserprofile'>
+           <OtherUserProfile />
+         </Route>
        </Switch>
      </Router>
+     
+     
     
   );
 }

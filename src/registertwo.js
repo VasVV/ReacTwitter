@@ -74,7 +74,9 @@ export default function RegisterTwo() {
                 avatar: avatar,
                 displayName: username,
                 twittername,
-                joined:  `${new Date().getMonth()+1}/${new Date().getFullYear()}`
+                joined:  `${new Date().getMonth()+1}/${new Date().getFullYear()}`,
+                followers: [],
+                following: []
             });
 
             history.push('/dashboard')

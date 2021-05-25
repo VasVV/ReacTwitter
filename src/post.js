@@ -3,8 +3,12 @@ import './post.css';
 import {Avatar} from '@material-ui/core'
 import { ChatBubbleOutline, FavoriteBorder, PublishOutlined, RepeatOutlined, VerifiedUserRounded } from '@material-ui/icons';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import {Link} from 'react-router-dom';
 
 import {db,firebaseApp} from './firebase';
+import { adduserinfo } from './actions/adduserinfo';
+
+import {useDispatch} from 'react-redux';
 
 export default function Post({
     displayName,
@@ -17,9 +21,14 @@ export default function Post({
     timeStamp,
     currUser,
     update,
-    updatePost
+    updatePost,
+    joined,
+    thisPostUserId
 
 }) {
+    const dispatch = useDispatch();
+    
+
     const [likes, setLikes] = useState(0);
     const [numberOfLikes, setNumberOflikes] = useState(0);
     const [liked, setLiked] = useState();
@@ -30,17 +39,32 @@ export default function Post({
     const [showreplybox, setShowreplybox] = useState(false);
     const [reply, setReply] = useState('');
     const [allReplies, setAllReplies] = useState([]);
+    const [linkToProfile, setLinkToProfile] = useState('');
+
 
     useEffect(() => {
         initialLikesCheck();
         getData();
-        
+        checkIfCurrent();
     },[]);
 
     useEffect(() => {
         setLikes(likes => likes + 1);
         console.log('post updated'); //simultaniously update all components !
-    },[updatePost])
+    },[updatePost]);
+
+    const checkIfCurrent = async() => {
+        const thispost = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
+        let thispostdata  = thispost.docs.map(doc => doc.data())[0];
+        
+        if (thispostdata.userId == currUser) {
+            setLinkToProfile('/profile')
+        } else {
+            setLinkToProfile('/otheruserprofile')
+        }
+
+
+    }
 
     const getData = async() => {
         const thispost = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
@@ -57,11 +81,13 @@ export default function Post({
     const initialLikesCheck = async() => {
         const tweets = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
         let mapped  = tweets.docs.map(doc => doc.data())[0];
-       
-        if (mapped && mapped.likes > 0) {
+        console.log('mapped likes');
+        console.log(mapped)
+        if (mapped && mapped.likes.length > 0) {
             
         const includes = mapped.likes.includes(currUser);
         if (includes) {
+            
             setLiked(true);       
         } else {setLiked(false);}
         setNumberOflikes(mapped.likes.length)
@@ -74,8 +100,7 @@ export default function Post({
         
         const id = tweets.docs[0].id
         let mapped  = tweets.docs.map(doc => doc.data())[0];
-        console.log('mapped likes')
-        console.log(mapped);
+        
 
         const includes = mapped.likes.includes(currUser);
        
@@ -115,7 +140,7 @@ export default function Post({
         const tweetsNew = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
         let numOfLikes = tweetsNew.docs.map(doc => doc.data())[0].likes.length;
         setNumberOflikes(numOfLikes);
-        update('aaa');
+       // update('aaa');
     }
 
 
@@ -265,14 +290,13 @@ export default function Post({
           const user = firebaseApp.auth().currentUser;
           const currUserDb = await db.collection('users').where('userId', '==', currUser).get();
           const udata = currUserDb.docs.map(user => user.data())[0];
-        console.log(udata);
+        
 
         const thisTweet = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
         
         
         const parentid = thisTweet.docs[0].id;
-        console.log("dpid")
-        console.log(parentid)
+        
         let mappedParent  = thisTweet.docs.map(doc => doc.data())[0];
         
         let replyId;
@@ -308,18 +332,28 @@ export default function Post({
         for (let a = 0; a < responcesIds.length; a++ ) {
             
             let responce = await db.collection('tweets').doc(responcesIds[a]).get().then(doc => {
-                console.log(doc.data());
+                
                 completeResponces.push(doc.data());
             });
         }
             
-        console.log('responcesIds')
-        console.log(completeResponces);
+        
+        
 
         setAllReplies(completeResponces);
     }
         setShowreplybox(!showreplybox)
 
+    }
+
+    const adduserinfo = () => {
+        dispatch({type: 'ADD_USERINFO', payload: 
+            [displayName,
+            userName,
+            avatar,
+            verified,
+            joined,
+            thisPostUserId]})
     }
 
 
@@ -332,13 +366,13 @@ export default function Post({
                 <div className='post-body'>
                     <div className='post-header'>
                     {isRetweet&& <p>{retweetedBy} retweeted</p>}
-                        <div className='header-text'>
-                            <h3>{displayName} <span>
+                    <Link to={linkToProfile}> <div className='header-text' onClick={() => adduserinfo()}>
+                          <h3>{displayName} <span>
                                 {verified&&<VerifiedUserRounded className='verified-icon' />}
                                 </span>   @{userName} · {timeStamp}
                                 
                                 </h3>
-                        </div>
+                        </div></Link> 
                         <div className='post-headerdescription'>
                             <p>{text}</p>
                         </div>

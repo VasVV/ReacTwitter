@@ -3,32 +3,74 @@ import './feed.css';
 import TweetBox from './tweetbox';
 import Post from './post';
 import { db, firebaseApp} from './firebase';
+import {useSelector} from 'react-redux';
 import props from 'prop-types';
-
+import {store} from './index';
 
 export default function Feed() {
 
+    const Store = store;
+    
+    const  select = (state) => {
+        return state.update
+      }
+
+
+      let currentValue;
+      const [update, setUpdate] = useState();
+
+
+    const handleChangeStore = () => {
+        let previousValue = currentValue
+        currentValue = select(Store.getState());
+        if (previousValue !== currentValue) {
+            getPosts()
+          }
+        }
+
+        const unsubscribe = Store.subscribe(handleChangeStore)
     
     const currUser = firebaseApp.auth().currentUser;
     const [posts, setPosts] = useState([]);
     const [updateChild, setupdateChild] = useState(0);
+    
 
     function handleChange() {
         getPosts();
-        console.log('got posts!!')
+        console.log('got posts!!');
     }
 
 
     const getPosts = async() => {
         const snapshot = await db.collection('tweets').get().then(snapshot => {
             let tweets  = snapshot.docs.map(doc => doc.data());
-            setPosts(tweets);
+            const currUserId = firebaseApp.auth().currentUser.uid;
+            const currUserDb = db.collection('users').where('userId', '==', currUserId).get().then(res => {
+                const currUserDbMapped = res.docs.map(doc => doc.data())[0];
+                const following = currUserDbMapped.following;
+
+                console.log('tweets')
+                console.log(tweets);
+                console.log('mapped')
+                console.log(currUserDbMapped)
+                tweets = tweets.map(e => {
+                    if (following.includes(e.userId) || e.userId == currUserId) {
+                        console.log('includes')
+                        console.log(e.userId)
+                        return e;
+                    } else return false;
+                }).filter(e => e)
+                setPosts(tweets);
+
+                });
+            
         })
         }
     
 
     useEffect(() => {
-      getPosts() 
+      getPosts();
+      unsubscribe();
     }, []);
 
     
@@ -59,6 +101,8 @@ export default function Feed() {
     responses={e.responses}
     currUser={currUser.uid}
     retweeted= {e.retweet ? true : false}
+    joined = {e.joined}
+    thisPostUserId={e.userId}
     />
             
                 )

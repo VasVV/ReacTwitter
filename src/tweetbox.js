@@ -26,6 +26,7 @@ export default function TweetBox(props) {
     const [avatar, setAvatar] = useState('');
     const [twittername, setTwittername] = useState('');
     const [showHideEmojiPicker, setShowHideEmojiPicker] = useState(false);
+    const [joined, setJoined] = useState('');
 
 
     const onEmojiClick = (event, emojiObject) => {
@@ -50,11 +51,11 @@ export default function TweetBox(props) {
         const currUserDb = await db.collection('users').where('userId', '==', uid).get();
         console.log('userdata')
         const udata = currUserDb.docs.map(user => user.data())[0];
-        console.log('avatar')
-        console.log(udata.avatar)
-        setAvatar(udata.avatar);
+        if (udata) {
+        setAvatar(udata.avatar)
         setUsername(udata.displayName);
         setTwittername(udata.twittername);
+        setJoined(udata.joined)};
         }
     }  
 
@@ -81,7 +82,8 @@ export default function TweetBox(props) {
             retweets: [],
             responses: [],
             timeStamp,
-            children: [] 
+            children: [],
+            joined: joined
         });
         
         setTweetImg('');
