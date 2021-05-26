@@ -16,11 +16,24 @@ import RegisterForm from './registerform';
 import RegisterTwo from './registertwo';
 import Profile from './profile';
 import OtherUserProfile from './otheruserprofile';
+import { firebaseApp } from './firebase';
+
+import {useState, useEffect} from 'react';
 
 
 
 
 function App() {
+  const [currUser, setCurrUser] = useState(); 
+  
+  useEffect(() => {
+    firebaseApp.auth().onAuthStateChanged(user => {
+      if (user) {
+        setCurrUser(user.uid);
+      }
+    })
+  },[currUser])
+  
   return (
    
      
@@ -30,7 +43,7 @@ function App() {
          <div className="app">
           <Sidebar />
           <Feed />
-          <Widgets />
+          <Widgets userIdForImg={currUser} />
           </div>
          </Route>
          <Route path='/register'>

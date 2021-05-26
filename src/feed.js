@@ -6,8 +6,11 @@ import { db, firebaseApp} from './firebase';
 import {useSelector} from 'react-redux';
 import props from 'prop-types';
 import {store} from './index';
+import {useDispatch} from 'react-redux';
 
 export default function Feed() {
+
+    const dispatch = useDispatch();
 
     const Store = store;
     
@@ -49,14 +52,10 @@ export default function Feed() {
                 const currUserDbMapped = res.docs.map(doc => doc.data())[0];
                 const following = currUserDbMapped.following;
 
-                console.log('tweets')
-                console.log(tweets);
-                console.log('mapped')
-                console.log(currUserDbMapped)
+               
                 tweets = tweets.map(e => {
                     if (following.includes(e.userId) || e.userId == currUserId) {
-                        console.log('includes')
-                        console.log(e.userId)
+                        
                         return e;
                     } else return false;
                 }).filter(e => e)
@@ -71,6 +70,10 @@ export default function Feed() {
     useEffect(() => {
       getPosts();
       unsubscribe();
+      dispatch({type: 'USERID', payload: firebaseApp.auth().currentUser.uid })
+
+
+
     }, []);
 
     

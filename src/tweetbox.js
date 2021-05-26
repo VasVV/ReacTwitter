@@ -21,12 +21,14 @@ export default function TweetBox(props) {
 
     const [tweet, setTweet] = useState('');
     const [tweetImg, setTweetImg] = useState('');
-    const [link, setLink] = useState('')
+    const [link, setLink] = useState('');
+
     const [username, setUsername] = useState('');
     const [avatar, setAvatar] = useState('');
     const [twittername, setTwittername] = useState('');
     const [showHideEmojiPicker, setShowHideEmojiPicker] = useState(false);
     const [joined, setJoined] = useState('');
+    const [fileImg, setFileImg] = useState();
 
 
     const onEmojiClick = (event, emojiObject) => {
@@ -66,14 +68,32 @@ export default function TweetBox(props) {
 
       const sendTweet = async(e) => {
           e.preventDefault();
-          console.log('link');
-          console.log(link);
+          
           let date = new Date();
-          let timeStamp = date.toJSON().slice(0,10).replace(/-/g,'/') + ' ' + date.toTimeString().split(' ')[0]
+          let timeStamp = date.toJSON().slice(0,10).replace(/-/g,'/') + ' ' + date.toTimeString().split(' ')[0];
+          let imglink = '';
+          if (tweetImg) {
+            const storageRef = storage.ref();
+           
+            const imageRef = storageRef.child(fileImg.name);
+           
+            await imageRef.put(fileImg)
+           
+            imglink = await imageRef.getDownloadURL();
+            console.log("LINK TO FIREBASE IMAGE")
+            console.log(imglink)
+          }
+
+        await db.collection('photos').add({
+            url: imglink,
+            userId: currUser.uid,
+            timeStamp
+        })  
+
         await db.collection('tweets').add({
             avatar: avatar,
             displayName: username,
-            image: link ? link : '',
+            image: imglink,
             text: tweet,
             userId: currUser.uid,
             userName: twittername, //@bla
@@ -102,6 +122,9 @@ export default function TweetBox(props) {
             await imageRef.put(image)
            
            const imglink = await imageRef.getDownloadURL();
+
+           console.log('LINK SET');
+           console.log(imglink)
            
            setLink(imglink);
            
@@ -123,7 +146,9 @@ export default function TweetBox(props) {
             if (fileType == 'PNG' || fileType == 'JPG' || fileType == 'JPEG' || fileType == 'png' || fileType == 'jpg' || fileType == 'jpeg') {
                 const url = URL.createObjectURL(files[0]);
                 setTweetImg(url);
-                uploadImage(files[0])
+                console.log(files[0]);
+                setFileImg(files[0]);
+                
                 
             }
             

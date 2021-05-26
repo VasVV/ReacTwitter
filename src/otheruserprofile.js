@@ -8,18 +8,21 @@ import { Avatar } from '@material-ui/core';
 import {db, firebaseApp} from './firebase';
 import Post from './post';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function OtherUserProfile() {
 
+    const dispatch = useDispatch();
+
     const tab1Ref = useRef(null);
     const tab2Ref = useRef(null);
-    
+    const tab3Ref = useRef(null);
     const tab4Ref=useRef(null);
 
     const tab1 = useRef(null);
     const tab2 = useRef(null);
-    
+    const tab3 = useRef(null);
+
     const tab4 = useRef(null);
 
     const [avatar, setAvatar] = useState('');
@@ -30,6 +33,8 @@ export default function OtherUserProfile() {
     const [numberOfFollowers, setNumberOfFollowers] = useState(0);
     const [numberOfFollowing, setNumberOfFollowing] = useState(0);
     const [myLikes, setMyLikes] = useState([]);
+    const [tweetsWithMedia, setTweetsWithMedia] = useState([]);
+
 
     const user = useSelector(state => state.userInfo);
 
@@ -42,11 +47,13 @@ export default function OtherUserProfile() {
         setJoined(user[4]);
         setUserId(user[5]);
         initialCheckFollow(user[5]);
-        getCurrUserData(user[5])
+        getCurrUserData(user[5]);
+        dispatch({type: 'USERID', payload: user[5]})
     }
 
     useEffect(() => {
         recieveUserInfo();
+        
     },[])
 
     
@@ -64,10 +71,7 @@ export default function OtherUserProfile() {
     
     const currUserDb = await db.collection('users').where('userId', '==', userId).get();
     const currUserDbMapped = currUserDb.docs.map(doc => doc.data())[0];
-    // setAvatar(currUserDbMapped.avatar);
-    // setDisplayName(currUserDbMapped.displayName);
-    // setTwitterName(currUserDbMapped.twittername);
-    // setJoined(currUserDbMapped.joined)
+    
     const currUserTweetsDb = await db.collection('tweets').where('userId', '==', userId).get();
     const currUserTweetsDbMapped = currUserTweetsDb.docs.map(doc => doc.data());
     setAllTweets(currUserTweetsDbMapped);
@@ -80,12 +84,13 @@ export default function OtherUserProfile() {
     
     setMyLikes(currUserLikesDbMapped);
 
+    const currUserTweetsWithMedia = currUserTweetsDb.docs.map(doc => doc.data()).filter(e => e.image);
+    setTweetsWithMedia(currUserTweetsWithMedia);
+
         }
     }
 
-    // useEffect(() => {
-    //     getCurrUserData()
-    // }, []);
+   
 
     const addRemoveFollow = async() => {
         const user = await db.collection('users').where('userId', '==', userId).get();
@@ -97,12 +102,10 @@ export default function OtherUserProfile() {
         const addFollowing = await db.collection('users').where('userId', '==', currUserId).get();
         const currUserDocId = addFollowing.docs[0].id;
         const mappedCurrentUser = addFollowing.docs.map(doc => doc.data())[0];
-        console.log('initial current user');
-        console.log(mappedCurrentUser);
+        
         if ( mappedUser.followers.includes(currUserId) ) {
            const index = mappedUser.followers.findIndex(e => e == currUserId);
-           console.log('INDEXS')
-            console.log(index)
+          
             mappedUser.followers.splice(index, 1);
             const index2 = mappedCurrentUser.following.findIndex(e => e== userId);
             mappedCurrentUser.following.splice(index2, 1);
@@ -155,35 +158,45 @@ export default function OtherUserProfile() {
         if (num == 1) {
             tab1Ref.current.className = 'visible-tab';
             tab2Ref.current.className = 'invisible-tab';
-
+            tab3Ref.current.className = 'invisible-tab';
             tab4Ref.current.className = 'invisible-tab';
 
             tab1.current.className = 'tweets-tweets-active';
             tab2.current.className ='tweets-tweets-nonactive';
-
+            tab3.current.className ='tweets-tweets-nonactive';
             tab4.current.className= 'tweets-tweets-nonactive'
 
         } else if (num == 2) {
             tab1Ref.current.className = 'invisible-tab';
             tab2Ref.current.className = 'visible-tab';
-
+            tab3Ref.current.className = 'invisible-tab';
             tab4Ref.current.className = 'invisible-tab';
 
             tab1.current.className = 'tweets-tweets-nonactive';
             tab2.current.className ='tweets-tweets-active';
+            tab3.current.className ='tweets-tweets-nonactive';
+            tab4.current.className= 'tweets-tweets-nonactive'
+        } else if (num == 3) {
+            tab1Ref.current.className = 'invisible-tab';
+            tab2Ref.current.className = 'invisible-tab';
+            tab3Ref.current.className = 'visible-tab';
+            tab4Ref.current.className = 'invisible-tab';
 
+            tab1.current.className = 'tweets-tweets-nonactive';
+            tab2.current.className ='tweets-tweets-nonactive';
+            tab3.current.className ='tweets-tweets-active';
             tab4.current.className= 'tweets-tweets-nonactive'
         }
 
         else if (num == 4) {
             tab1Ref.current.className = 'invisible-tab';
             tab2Ref.current.className = 'invisible-tab';
-
+            tab3Ref.current.className = 'invisible-tab';
             tab4Ref.current.className = 'visible-tab';
 
             tab1.current.className = 'tweets-tweets-nonactive';
             tab2.current.className ='tweets-tweets-nonactive';
-
+            tab3.current.className ='tweets-tweets-nonactive';
             tab4.current.className= 'tweets-tweets-active'
         }
     }
@@ -212,7 +225,7 @@ export default function OtherUserProfile() {
                         <div className='select-profile'>
                             <div className='tweets-tweets select-profile-item tweets-tweets-active' ref={tab1} onClick={() => switchTab(1)}> Tweets </div>
                             <div className='tweets-replies select-profile-item' ref={tab2} onClick={() => switchTab(2)}>Tweets & replies</div>
-                            <div className='tweets-media select-profile-item'>Media</div>
+                            <div className='tweets-media select-profile-item' ref={tab3} onClick={() => switchTab(3)}> Media</div>
                             <div className='tweets-likes select-profile-item' ref={tab4} onClick={() => switchTab(4)}>Likes</div>
                         </div>
                     </div>
@@ -261,6 +274,30 @@ export default function OtherUserProfile() {
                    })}
                    </div>
 
+                   <div id='3' ref={tab3Ref} className='invisible-tab'>
+                    {
+                        tweetsWithMedia.map(e => {
+                            return (
+                                <Post 
+                                text={e.text} 
+                                displayName={e.displayName}
+                        userName={e.userName}
+                        avatar={e.avatar}
+                        verified={e.verified}
+                        timeStamp={e.timeStamp}
+                        text={e.text}
+                        image={e.image}
+                        likes={e.likes}
+                        retweets={e.retweets}
+                        responses={e.responses}
+                        currUser={thisuserId}
+                        retweeted= {e.retweet ? true : false}
+                        />
+                            )
+                        })
+                    }
+                   </div>
+
                    <div id='4' ref={tab4Ref} className='invisible-tab'>
                    {myLikes.map(e => {
                        return (
@@ -284,7 +321,9 @@ export default function OtherUserProfile() {
                    })}
                    </div>
                 </div>
-          <Widgets />
+          <Widgets 
+          userIdForImg={user[5]}
+          />
         </div>
     )
 }

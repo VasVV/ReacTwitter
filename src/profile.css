@@ -15,13 +15,43 @@
     display: none !important;
   }
 
+  .profile-up {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  .edit-profile-btn {
+    background-color: white !important;
+    border-radius: 20px !important;
+    color: #50b7f5 !important;
+    font-weight: bold !important;
+    height: 40px !important;
+    width: 90px !important;
+    text-transform: inherit !important;
+    border: 1px solid #50b7f5 !important;
+    margin-left: 20px !important
+  }
+
+  .edit-profile-btn:hover {
+    background-color: #b0d4eb !important;
+    transition: background-color 500ms ease-out !important;
+  }
+
+  .profile-names {
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+  }
+
+  
 
 
-.profile-header {
+.profile-header-profile {
     position: sticky;
     top: 0;
     background-color: white;
-    z-index: 100;
+    /* z-index: 100; */
     border: 1px solid white;
     padding: 15px 20px
 }
@@ -100,4 +130,85 @@
     font-size: 18px !important;
  }
 
- 
+ .Modal {
+    position: absolute;
+    top: 15vh;
+    left: 15vw;
+    right: 35vw;
+    bottom: 15vh;
+    background-color: white;
+    border-radius: 20px;
+  }
+
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .twitter-icon-modal {
+      display: flex;
+      justify-content: center;
+      
+  }
+
+
+  .modal {
+      padding: 40px
+  }
+
+  .modal-content-avatar {
+      display: flex;
+      justify-content: center;
+  }
+
+  .modal-content-avatar > .MuiAvatar-root {
+      width: 160px;
+      height: 149px;
+      margin: 50px
+  }
+
+  .twitter-icon-modal > .MuiSvgIcon-root {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 3rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+    color: #50b7f5
+  } 
+
+  .close-btn-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .close-modal-btn {
+    background-color: white !important;
+    border-radius: 20px !important;
+    color: #50b7f5 !important;
+    font-weight: bold !important;
+    height: 40px !important;
+    width: 90px !important;
+    text-transform: inherit !important;
+    border: 1px solid #50b7f5 !important;
+    margin-left: 20px !important
+  }
+
+  .close-modal-btn:hover {
+    background-color: #b0d4eb !important;
+    transition: background-color 500ms ease-out !important;
+  }
+
+  .modal-bio-text {
+      width: 100%;
+      border: 1px solid black
+  }
+
+  .bio-profile {
+      max-width: 50px;
+  }

@@ -81,8 +81,7 @@ export default function Post({
     const initialLikesCheck = async() => {
         const tweets = await db.collection('tweets').where('timeStamp', '==', timeStamp).get();
         let mapped  = tweets.docs.map(doc => doc.data())[0];
-        console.log('mapped likes');
-        console.log(mapped)
+        
         if (mapped && mapped.likes.length > 0) {
             
         const includes = mapped.likes.includes(currUser);
