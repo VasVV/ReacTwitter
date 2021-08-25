@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/reactwitter/static/css/main.09add1b2.chunk.css",
+    "main.js": "/reactwitter/static/js/main.5b184576.chunk.js",
+    "main.js.map": "/reactwitter/static/js/main.5b184576.chunk.js.map",
+    "runtime-main.js": "/reactwitter/static/js/runtime-main.de03b560.js",
+    "runtime-main.js.map": "/reactwitter/static/js/runtime-main.de03b560.js.map",
+    "static/js/2.88eea30d.chunk.js": "/reactwitter/static/js/2.88eea30d.chunk.js",
+    "static/js/2.88eea30d.chunk.js.map": "/reactwitter/static/js/2.88eea30d.chunk.js.map",
+    "static/js/3.882b68af.chunk.js": "/reactwitter/static/js/3.882b68af.chunk.js",
+    "static/js/3.882b68af.chunk.js.map": "/reactwitter/static/js/3.882b68af.chunk.js.map",
+    "index.html": "/reactwitter/index.html",
+    "static/css/main.09add1b2.chunk.css.map": "/reactwitter/static/css/main.09add1b2.chunk.css.map",
+    "static/js/2.88eea30d.chunk.js.LICENSE.txt": "/reactwitter/static/js/2.88eea30d.chunk.js.LICENSE.txt",
+    "static/js/main.5b184576.chunk.js.LICENSE.txt": "/reactwitter/static/js/main.5b184576.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/reactwitter/static/media/logo.6ce24c58.svg",
+    "static/media/register.36dbbe34.png": "/reactwitter/static/media/register.36dbbe34.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.de03b560.js",
+    "static/js/2.88eea30d.chunk.js",
+    "static/css/main.09add1b2.chunk.css",
+    "static/js/main.5b184576.chunk.js"
+  ]
+}
